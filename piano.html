@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Piano Player</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial;
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+  }
+
+  h1 {
+    margin-top: 40px;
+  }
+
+  /* 🌌 canvas achtergrond */
+  #bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  .container {
+    height: 100vh;
+    overflow-y: scroll;
+    padding: 20px;
+  }
+
+  .song {
+    background: rgba(255,255,255,0.1);
+    margin: 30px auto;
+    padding: 30px;
+    border-radius: 20px;
+    width: 320px;
+    backdrop-filter: blur(10px);
+  }
+
+  button {
+    padding: 12px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .play {
+    background: #4CAF50;
+    color: white;
+  }
+
+  .pause {
+    background: #f44336;
+    color: white;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- 🌌 achtergrond -->
+<canvas id="bg"></canvas>
+
+<h1>🎹 Piano Collectie</h1>
+
+<div class="container">
+
+  <div class="song">
+    <h2>Miracle</h2>
+    <button class="play" onclick="playMusic('song2')">▶️ Play</button>
+    <button class="pause" onclick="pauseMusic('song2')">⏸ Pause</button>
+    <audio id="song2">
+      <source src="Miracle.mp3">
+    </audio>
+  </div>
+
+<div class="song">
+    <h2>Fly</h2>
+    <button class="play" onclick="playMusic('song1')">▶️ Play</button>
+    <button class="pause" onclick="pauseMusic('song1')">⏸ Pause</button>
+    <audio id="song1">
+      <source src="Ludovico Einaudi - Fly (The Intouchables) (mp3cut.net).mp3">
+    </audio>
+  </div>
+
+  <div class="song">
+    <h2>Idea 22</h2>
+    <button class="play" onclick="playMusic('song3')">▶️ Play</button>
+    <button class="pause" onclick="pauseMusic('song3')">⏸ Pause</button>
+    <audio id="song3">
+      <source src="Idea 22 - Gibran Alcocer (mp3cut.net).mp3">
+    </audio>
+  </div>
+
+</div>
+
+<script>
+// 🎵 muziek
+function playMusic(id) {
+  document.querySelectorAll("audio").forEach(a => {
+    a.pause();
+    a.currentTime = 0;
+  });
+  document.getElementById(id).play();
+}
+
+function pauseMusic(id) {
+  document.getElementById(id).pause();
+}
+
+// 🌌 sterren achtergrond
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+
+let stars = [];
+
+for (let i = 0; i < 120; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    s: Math.random() * 0.3
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "rgba(255,255,255,0.8)";
+  ctx.shadowBlur = 8;
+  ctx.shadowColor = "white";
+
+  stars.forEach(star => {
+    star.y += star.s;
+
+    if (star.y > canvas.height) {
+      star.y = 0;
+      star.x = Math.random() * canvas.width;
+    }
+
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", resizeCanvas);
+</script>
+
+</body>
+</html>
