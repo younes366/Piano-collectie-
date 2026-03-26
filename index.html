@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Piano Player</title>
+<title>Midnight Piano</title>
 
 <style>
   body {
@@ -18,7 +18,6 @@
     margin-top: 40px;
   }
 
-  /* 🌌 canvas achtergrond */
   #bg {
     position: fixed;
     top: 0;
@@ -61,33 +60,44 @@
     background: #f44336;
     color: white;
   }
+
+  .time {
+    margin-top: 10px;
+    font-size: 14px;
+    opacity: 0.8;
+  }
 </style>
 </head>
 
 <body>
 
-<!-- 🌌 achtergrond -->
 <canvas id="bg"></canvas>
 
-<h1>🎹 Piano Collectie</h1>
+<h1>🎹 Midnight Piano</h1>
 
 <div class="container">
 
+  <!-- Fly -->
+  <div class="song">
+    <h2>Fly</h2>
+    <button class="play" onclick="playMusic('song1')">▶️ Play</button>
+    <button class="pause" onclick="pauseMusic('song1')">⏸ Pause</button>
+    <div class="time" id="time1">0:00 / 0:00</div>
+
+    <audio id="song1">
+      <source src="Ludovico Einaudi - Fly (The Intouchables) (mp3cut.net).mp3">
+    </audio>
+  </div>
+
+  <!-- Miracle -->
   <div class="song">
     <h2>Miracle</h2>
     <button class="play" onclick="playMusic('song2')">▶️ Play</button>
     <button class="pause" onclick="pauseMusic('song2')">⏸ Pause</button>
+    <div class="time" id="time2">0:00 / 0:00</div>
+
     <audio id="song2">
       <source src="Miracle.mp3">
-    </audio>
-  </div>
-
-<div class="song">
-    <h2>Fly</h2>
-    <button class="play" onclick="playMusic('song1')">▶️ Play</button>
-    <button class="pause" onclick="pauseMusic('song1')">⏸ Pause</button>
-    <audio id="song1">
-      <source src="Ludovico Einaudi - Fly (The Intouchables) (mp3cut.net).mp3">
     </audio>
   </div>
 
@@ -106,6 +116,33 @@ function playMusic(id) {
 function pauseMusic(id) {
   document.getElementById(id).pause();
 }
+
+// ⏱️ tijd formatteren
+function formatTime(sec) {
+  let m = Math.floor(sec / 60);
+  let s = Math.floor(sec % 60);
+  if (s < 10) s = "0" + s;
+  return m + ":" + s;
+}
+
+// ⏱️ tijd updaten
+function setupTime(audioId, timeId) {
+  const audio = document.getElementById(audioId);
+  const display = document.getElementById(timeId);
+
+  audio.addEventListener("loadedmetadata", () => {
+    display.textContent = "0:00 / " + formatTime(audio.duration);
+  });
+
+  audio.addEventListener("timeupdate", () => {
+    display.textContent =
+      formatTime(audio.currentTime) + " / " + formatTime(audio.duration);
+  });
+}
+
+setupTime("song1", "time1");
+setupTime("song2", "time2");
+setupTime("song3", "time3");
 
 // 🌌 sterren achtergrond
 const canvas = document.getElementById("bg");
@@ -152,7 +189,6 @@ function animate() {
 }
 
 animate();
-
 window.addEventListener("resize", resizeCanvas);
 </script>
 
