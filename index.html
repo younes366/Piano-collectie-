@@ -18,6 +18,7 @@
     margin-top: 40px;
   }
 
+  /* 🌌 achtergrond */
   #bg {
     position: fixed;
     top: 0;
@@ -71,6 +72,7 @@
 
 <body>
 
+<!-- 🌌 canvas -->
 <canvas id="bg"></canvas>
 
 <h1>🎹 Midnight Piano</h1>
@@ -85,11 +87,11 @@
     <div class="time" id="time2">0:00 / 0:00</div>
 
     <audio id="song2">
-      <source src="Miracle.mp3">
+      <source src="Miracle.mp3" type="audio/mpeg">
     </audio>
   </div>
 
-<!-- idea 22 -->
+  <!-- Idea 22 -->
   <div class="song">
     <h2>Idea 22</h2>
     <button class="play" onclick="playMusic('song1')">▶️ Play</button>
@@ -97,7 +99,7 @@
     <div class="time" id="time1">0:00 / 0:00</div>
 
     <audio id="song1">
-      <source src="idea.mp3">
+      <source src="idea.mp3" type="audio/mpeg">
     </audio>
   </div>
 
@@ -140,9 +142,9 @@ function setupTime(audioId, timeId) {
   });
 }
 
+// ✅ alleen bestaande songs
 setupTime("song1", "time1");
 setupTime("song2", "time2");
-setupTime("song3", "time3");
 
 // 🌌 sterren achtergrond
 const canvas = document.getElementById("bg");
@@ -156,20 +158,21 @@ resizeCanvas();
 
 let stars = [];
 
-for (let i = 0; i < 120; i++) {
+// meer sterren
+for (let i = 0; i < 180; i++) {
   stars.push({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
     r: Math.random() * 2,
-    s: Math.random() * 0.3
+    s: Math.random() * 0.4
   });
 }
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = "rgba(255,255,255,0.8)";
-  ctx.shadowBlur = 8;
+  ctx.fillStyle = "rgba(255,255,255,0.9)";
+  ctx.shadowBlur = 10;
   ctx.shadowColor = "white";
 
   stars.forEach(star => {
@@ -189,6 +192,8 @@ function animate() {
 }
 
 animate();
+
+// responsive
 window.addEventListener("resize", resizeCanvas);
 </script>
 
